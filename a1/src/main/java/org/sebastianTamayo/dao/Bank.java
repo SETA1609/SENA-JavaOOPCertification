@@ -10,16 +10,23 @@ import java.util.List;
 
 public class Bank {
 
-private List<Account> accountList;
-private List<Client> clientList;
-private List<InvestmentFond> investmentFondList;
-private List<Employee> employeeList;
+    private List<Account> accountList;
+    private List<Client> clientList;
+    private List<InvestmentFond> investmentFondList;
+    private List<Employee> employeeList;
 
     public Bank() {
         setAccountList(new ArrayList<Account>());
         setClientList(new ArrayList<Client>());
+        setInvestmentFondList(new ArrayList<InvestmentFond>());
         setEmployeeList(new ArrayList<Employee>());
+    }
 
+    public Bank(List<Account> accountList, List<Client> clientList, List<InvestmentFond> investmentFondList, List<Employee> employeeList) {
+        this.accountList = accountList;
+        this.clientList = clientList;
+        this.investmentFondList = investmentFondList;
+        this.employeeList = employeeList;
     }
 
     public List<Account> getAccountList() {
