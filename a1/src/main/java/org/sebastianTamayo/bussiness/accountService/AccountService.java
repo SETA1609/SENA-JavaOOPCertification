@@ -42,19 +42,19 @@ public class AccountService implements AccountServiceInterface {
     @Override
     public boolean withdraw(int amount, Account account, Client client) {
         if (account.getAccountType()==AccountType.SAVINGS){
-            for (Account element:accountList) {
-                if (element.getClient().getId()==client.getId()){
-                   if (element.getBalance()>500.0){
-                       element.setBalance(element.getBalance()-amount);
+            for (Account currentAccount:accountList) {
+                if (currentAccount.getClient().getId()==client.getId()){
+                   if (currentAccount.getBalance()>500.0){
+                       currentAccount.setBalance(currentAccount.getBalance()-amount);
                        return true;
                    }
                 }
             }
         } else if (account.getAccountType()==AccountType.INVESTMENT) {
-            for (Account element:accountList) {
-                if (element.getClient().getId()==client.getId()){
-                    if (element.getBalance()>10000.0){
-                        element.setBalance(element.getBalance()-amount);
+            for (Account currentAccount:accountList) {
+                if (currentAccount.getClient().getId()==client.getId()){
+                    if (currentAccount.getBalance()>10000.0){
+                        currentAccount.setBalance(currentAccount.getBalance()-amount);
                         return true;
                     }
                 }
@@ -103,9 +103,10 @@ public class AccountService implements AccountServiceInterface {
 
     private void addNewAccount(AccountType accountType, Client client, String password, int filteredPrefix) {
         int randomSuffix= (int) Math.floor(Math.random()*999999);
-        String idString= filteredPrefix + ""+randomSuffix;
+        String idString= filteredPrefix+""+randomSuffix;
         long id = Long.parseLong(idString);
-        Account account= new Account(accountType,id,client,password,1000.0);
+        double balance = accountType == AccountType.SAVINGS? 1000:10000 ;
+        Account account= new Account(accountType,id,client,password,balance);
         if (getAccountById(id,accountList).getId()!=id){
             accountList.add(account);
         }
@@ -123,12 +124,27 @@ public class AccountService implements AccountServiceInterface {
 
     @Override
     public List<Account> getAccountsByClient(Client client) {
-        return null;
+        List<Account> accountsFromClient= new ArrayList<Account>();
+
+        for (Account currentAccount: accountList) {
+            if (currentAccount.getClient().getId()== client.getId()){
+                accountsFromClient.add(currentAccount);
+            }
+        }
+        return accountsFromClient;
     }
 
     @Override
-    public boolean deleteAccount(Account account) {
+    public boolean deleteAccountById(long id) {
+
+        for (Account currentAccount: accountList) {
+            if (currentAccount.getId()== id){
+                accountList.remove(currentAccount);
+                return true;
+            }
+        }
         return false;
     }
+
 
 }

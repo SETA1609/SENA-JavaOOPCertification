@@ -17,7 +17,7 @@ public interface AccountServiceInterface {
 
     List<Account> getAccountsByClient(Client client);
 
-    boolean deleteAccount(Account account);
+    boolean deleteAccountById(long id);
 
 
 }
